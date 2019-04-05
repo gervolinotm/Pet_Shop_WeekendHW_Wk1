@@ -55,3 +55,15 @@ end
 def add_pet_to_stock(pet_shop, new_pet)
   pet_shop[:pets] << new_pet
 end
+
+# def customer_cash(customers, customer_name)
+#   for customer in customers
+#     if customer[:name] == customer_name
+#       return customer[:cash]
+#     end
+#   end
+# end
+
+def customer_cash(customer)
+  return customer[:cash]
+end
