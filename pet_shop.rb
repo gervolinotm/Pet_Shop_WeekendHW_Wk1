@@ -87,3 +87,24 @@ def customer_can_afford_pet(customer, new_pet)
     false
   end
 end
+
+def sell_pet_to_customer(pet_shop, find_pet_by_name, customer)
+  if find_pet_by_name
+    if customer[:cash] >= find_pet_by_name[:price]
+      customer[:cash] -= find_pet_by_name[:price]
+      pet_shop[:admin][:total_cash] += find_pet_by_name[:price]
+
+      customer[:pets] << find_pet_by_name
+      customer_pet_count = customer[:pets].count
+
+      number_of_sales = customer_pet_count
+
+      pets_sold = pet_shop[:admin][:pets_sold] += number_of_sales
+      return pets_sold
+
+    else customer[:cash] <= find_pet_by_name[:price]
+      return "Insufficient Funds!"
+    end
+    return "Pet not found!"
+  end
+end
