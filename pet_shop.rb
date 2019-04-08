@@ -4,7 +4,7 @@ end
 # Accessing the name location of @pet_shop
 
 def total_cash(pet_shop)
-  return pet_shop[:admin][:total_cash]
+  return pet_shop[:admin][:total_cash] #Make changes to code, return pet_shop[:admin][:total_cash] only returns the value in @pet_shop but not the changes.
 end
 # Acessing the location of total_cash in @pet_shop
 
@@ -22,7 +22,7 @@ def increase_pets_sold(pet_shop, number_of_sales)
 end
 
 def stock_count(pet_shop)
-  pet_shop[:pets].length
+  return pet_shop[:pets].count #Understand differences between .length and .count. .count seems have more flexibility and specificity when used.
 end
 
 def pets_by_breed(pet_shop, pet_breed)
@@ -82,29 +82,69 @@ end
 
 def customer_can_afford_pet(customer, new_pet)
   if customer[:cash] >= new_pet[:price]
-    true
+    return true
   else
-    false
+    return false
   end
 end
 
 def sell_pet_to_customer(pet_shop, find_pet_by_name, customer)
-  if find_pet_by_name
-    if customer[:cash] >= find_pet_by_name[:price]
-      customer[:cash] -= find_pet_by_name[:price]
-      pet_shop[:admin][:total_cash] += find_pet_by_name[:price]
+  if find_pet_by_name #If the pet can be found then the customer would have the option to purchase that pet. If find_pet_by_name is true.
+    if customer[:cash] >= find_pet_by_name[:price] #If the customer has more than or equal to price of the pet then he would be able to purchase that particular pet.
+      customer[:cash] -= find_pet_by_name[:price] #Removing the amount of cash that the pet cost from customer's cash total.
+      pet_shop[:admin][:total_cash] += find_pet_by_name[:price] #Adding cash used to purchase pet to pet shop cash total.
 
-      customer[:pets] << find_pet_by_name
-      customer_pet_count = customer[:pets].count
+      customer[:pets] << find_pet_by_name #Add pet to customer's pet array
+      customer_pet_count = customer[:pets].count #No. of pets customer has.
+      pet_shop[:pets].delete(find_pet_by_name) #Remove pet from pet shop :pet array
 
       number_of_sales = customer_pet_count
 
       pets_sold = pet_shop[:admin][:pets_sold] += number_of_sales
       return pets_sold
 
-    else customer[:cash] <= find_pet_by_name[:price]
+    else customer[:cash] <= find_pet_by_name[:price] #If customer does not have enough cash in hand, customer will not be able to purchase pet
       return "Insufficient Funds!"
     end
     return "Pet not found!"
   end
 end
+
+# def sell_pet_to_customer(pet_shop, find_pet_by_name, customer)
+#
+# pet_price = find_pet_by_name[:price]
+#
+#   if find_pet_by_name
+#
+#     if customer_cash(customer) >= pet_price
+#       customer_cash(customer) -= pet_price
+#       total_cash(pet_shop) += pet_price
+#
+#       customer[:pets] << find_pet_by_name
+#       customer_pet_count = customer[:pets].count
+#       remove_pet_by_name(pet_shop, find_pet_by_name)
+#
+#       increase_pets_sold(pet_shop, 1)
+#
+#     else customer_cash(customer) <= pet_price
+#
+#       return "Insufficient Funds!"
+#
+#     end
+#     return "Pet not found!"
+#   end
+# end
+
+# def sell_pet_to_customer(pet_shop, find_pet_by_name, customer)
+#   customer_can_afford_pet(customer, find_pet_by_name)
+#   remove_customer_cash(customer, find_pet_by_name[:price])
+#   add_or_remove_cash(pet_shop, find_pet_by_name[:price])
+#   return total_cash(pet_shop)
+#
+#   add_pet_to_customer(customer, find_pet_by_name)
+#   remove_pet_by_name(pet_shop, find_pet_by_name)
+#   customer_pet_count(customer)
+#
+#   increase_pets_sold(pet_shop, customer[:pets].count)
+#   return pets_sold(pet_shop)
+# end
